@@ -1,66 +1,75 @@
-## Foundry
+# Lending 101
 
-**Foundry is a blazing fast, portable and modular toolkit for Ethereum application development written in Rust.**
+## Introduction
 
-Foundry consists of:
+Welcome! This is an automated workshop that will guide you into using AAVE and doing a simple integration in a smart contract.
+It is aimed at developpers that are familiar with Solidity and ERC20
 
--   **Forge**: Ethereum testing framework (like Truffle, Hardhat and DappTools).
--   **Cast**: Swiss army knife for interacting with EVM smart contracts, sending transactions and getting chain data.
--   **Anvil**: Local Ethereum node, akin to Ganache, Hardhat Network.
--   **Chisel**: Fast, utilitarian, and verbose solidity REPL.
+## How to work on this TD
 
-## Documentation
+### Introduction
 
-https://book.getfoundry.sh/
+The TD has two components, deployed on the goerli testnet:
 
-## Usage
+- An ERC20 token, ticker TD-AAVE-101, that is used to keep track of points
+- An evaluator contract, that is able to mint and distribute TD-AAVE-101 points
 
-### Build
+Your objective is to gather as many TD-AAVE-101 points as possible. Please note :
 
-```shell
-$ forge build
-```
+- The 'transfer' function of TD-AAVE-101 has been disabled to encourage you to finish the TD with only one address
+- You can answer the various questions of this workshop with different contracts. However, an evaluated address has only one evaluated contract at a time. To change the evaluated contract associated with your address, call `submitExercice()` with that specific address.
+- In order to receive points, you will have to do execute code in `Evaluator.sol` such that the function `TDERC20.distributeTokens(msg.sender, n);` is triggered, and distributes n points.
+- This repo contains an interface `IExerciceSolution.sol`. Your ERC20 contract will have to conform to this interface in order to validate the exercice; that is, your contract needs to implement all the functions described in `IExerciceSolution.sol`.
+- A high level description of what is expected for each exercice is in this readme. A low level description of what is expected can be inferred by reading the code in `Evaluator.sol`.
+- The Evaluator contract sometimes needs to make payments to buy your tokens. Make sure he has enough ETH to do so! If not, you can send ETH directly to the contract.
 
-### Test
+### Getting to work
 
-```shell
-$ forge test
-```
+- Claim fake tokens from AAVE's faucet. Go to their [website](https://app.aave.com/), activate testnet mode, find V2 markets and find the faucet
+- Clone the repo on your machine
+- Install the dependencies. Deps in Foudry are git submodules, you have to run `git submodule init` and `git submodule update`.
+- Register for an infura API key (optional)
+- Create a `.env` file that contains private key for deployment, an infura API key.
+- To deploy a contract, configure a script in the [scripts folder](script). Look at the way the TD is deployed and try to iterate
+- Test your deployment locallly with `anvil` and `forge script script/your-script.s.sol --fork-url http://localhost:8545 --broadcast -vvvv`
+- Deploy on Sepolia `forge script script/deployTD.s.sol --rpc-url $sepolia_url --broadcast -vvvv `
 
-### Format
+## Points list
 
-```shell
-$ forge fmt
-```
+### Setting up
 
-### Gas Snapshots
+- Fork this repo
+- implement IExerciceSolution
 
-```shell
-$ forge snapshot
-```
+### AAVE basics
 
-### Anvil
+Using [Aave's website](https://app.aave.com/)
 
-```shell
-$ anvil
-```
+- Activate the testnet option by clicking on the wheel in the top right part of the screen
+- Deposit assets in AAVE and call `ex1_showIDepositedTokens()` to get points (2 pts)
+- Borrow assets from AAVE and call `ex2_showIBorrowedTokens()` to get points (2 pts)
+- Repay assets to AAVE and call `ex3_showIRepaidTokens()` to get points (2 pts)
+- Withdraw assets from AAVE and call `ex4_showIWithdrewTokens()` to get points (2 pts)
 
-### Deploy
+### AAVE integration
 
-```shell
-$ forge script script/Counter.s.sol:CounterScript --rpc-url <your_rpc_url> --private-key <your_private_key>
-```
+- Write a smart contract that deposits assets in AAVE and call `ex5_showContractCanDepositTokens()` to get points (2 pts)
+- Write a smart contract that borrow assets from AAVE and call `ex6_showContractCanBorrowTokens()` to get points (2 pts)
+- Write a smart contract that repays assets to AAVE and call `ex7_showContractCanRepayTokens()` to get points (2 pts)
+- Write a smart contract that withdraw assets from AAVE and call `ex8_showContractCanWithdrawTokens()` to get points (2 pts)
 
-### Cast
+### Flashloan
 
-```shell
-$ cast <subcommand>
-```
+- Write a smart contract that uses a FlashLoan (4 pts)
 
-### Help
+### Extra points
 
-```shell
-$ forge --help
-$ anvil --help
-$ cast --help
-```
+Extra points if you find bugs / corrections this TD can benefit from, and submit a PR to make it better. Ideas:
+
+- Adding a way to check the code of a specific contract was only used once (no copying)
+- Publish the code of the Evaluator on Etherscan using the "Verify and publish" functionnality
+
+## TD addresses
+
+- Points contracts [`0x482749F0578D0c8b067865a4eA49B5ef220c456B`](https://goerli.etherscan.io/address/0x482749F0578D0c8b067865a4eA49B5ef220c456B)
+- Evaluator [`0xc6895dFD6A256438a83D868DCaE2AdaebeC54616`](https://goerli.etherscan.io/address/0xc6895dFD6A256438a83D868DCaE2AdaebeC54616)
