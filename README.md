@@ -1,67 +1,66 @@
-# Lending 101
+## Foundry
 
-## Introduction
-Welcome! This is an automated workshop that will guide you into using AAVE and doing a simple integration in a smart contract.
-It is aimed at developpers that are familiar with Solidity and ERC20 
+**Foundry is a blazing fast, portable and modular toolkit for Ethereum application development written in Rust.**
 
-## How to work on this TD
-### Introduction
-The TD has two components, deployed on the goerli testnet:
-- An ERC20 token, ticker TD-AAVE-101, that is used to keep track of points 
-- An evaluator contract, that is able to mint and distribute TD-AAVE-101 points
+Foundry consists of:
 
-Your objective is to gather as many TD-AAVE-101 points as possible. Please note :
-- The 'transfer' function of TD-AAVE-101 has been disabled to encourage you to finish the TD with only one address
-- You can answer the various questions of this workshop with different contracts. However, an evaluated address has only one evaluated contract at a time. To change the evaluated contract associated with your address, call `submitExercice()`  with that specific address.
-- In order to receive points, you will have to do execute code in `Evaluator.sol` such that the function `TDERC20.distributeTokens(msg.sender, n);` is triggered, and distributes n points.
-- This repo contains an interface `IExerciceSolution.sol`. Your ERC20 contract will have to conform to this interface in order to validate the exercice; that is, your contract needs to implement all the functions described in `IExerciceSolution.sol`. 
-- A high level description of what is expected for each exercice is in this readme. A low level description of what is expected can be inferred by reading the code in `Evaluator.sol`.
-- The Evaluator contract sometimes needs to make payments to buy your tokens. Make sure he has enough ETH to do so! If not, you can send ETH directly to the contract.
+-   **Forge**: Ethereum testing framework (like Truffle, Hardhat and DappTools).
+-   **Cast**: Swiss army knife for interacting with EVM smart contracts, sending transactions and getting chain data.
+-   **Anvil**: Local Ethereum node, akin to Ganache, Hardhat Network.
+-   **Chisel**: Fast, utilitarian, and verbose solidity REPL.
 
-### Getting to work
-- Claim testnet ETH on [this faucet](https://goerlifaucet.com/)
-- Claim fake tokens from AAVE's faucet. Go to their [website](https://app.aave.com/), activate testnet mode, and find the faucet 
-- Clone the repo on your machine
-- Install the required packages `npm i`
-- Register for an infura API key 
-- Register for an etherscan API key 
-- Create a `.env` file that contains a mnemonic phrase for deployment, an infura API key and an Etherscan API key. 
-- Test that you are able to connect to the Kovan network with `npx hardhat console --network kovan`
-- To deploy a contract, configure a script in the [scripts folder](scripts). Look at the way the TD is deployed and try to iterate
-- Test your deployment locallly with `npx hardhat run scripts/your-script.js`
-- To deploy a contract, configure a migration in the [migration folder](migrations). Look at the way the TD is deploy and try to iterate
-- Deploy on Kovan `npx hardhat run scripts/your-script.js --network kovan`
+## Documentation
 
+https://book.getfoundry.sh/
 
-## Points list
-### Setting up
-- Create a git repository and share it with the teacher
-- Install truffle and create an empty truffle project. Create an infura API key to be able to deploy to the Kovan testnet
+## Usage
 
-### AAVE basics
-Using [Aave's website](https://app.aave.com/)
-- Activate the testnet option by clicking on the wheel in the top right part of the screen
-- Deposit assets in AAVE and call `ex1_showIDepositedTokens()` to get points (2 pts)
-- Borrow assets from AAVE and call `ex2_showIBorrowedTokens()` to get points (2 pts)
-- Repay assets to AAVE and call `ex3_showIRepaidTokens()` to get points (2 pts)
-- Withdraw assets from AAVE and call `ex4_showIWithdrewTokens()` to get points (2 pts)
+### Build
 
-### AAVE integration
-- Write a smart contract that deposits assets in AAVE and call `ex5_showContractCanDepositTokens()` to get points (2 pts)
-- Write a smart contract that borrow assets from AAVE and call `ex6_showContractCanBorrowTokens()` to get points (2 pts)
-- Write a smart contract that repays assets to AAVE and call `ex7_showContractCanRepayTokens()` to get points (2 pts)
-- Write a smart contract that withdraw assets from AAVE and call `ex8_showContractCanWithdrawTokens()` to get points (2 pts)
+```shell
+$ forge build
+```
 
-### Flashloan
-- Write a smart contract that uses a FlashLoan (4 pts)
+### Test
 
-### Extra points
-Extra points if you find bugs / corrections this TD can benefit from, and submit a PR to make it better.  Ideas:
-- Adding a way to check the code of a specific contract was only used once (no copying) 
-- Publish the code of the Evaluator on Etherscan using the "Verify and publish" functionnality 
+```shell
+$ forge test
+```
 
-## TD addresses
-- Points contracts [`0x1848C2633D0467242cb0B09408b1a8d21cAEF4fe`](https://goerli.etherscan.io/address/0x1848C2633D0467242cb0B09408b1a8d21cAEF4fe)
-- Evaluator [`0x587aF5b67C6b5c3E8B2f256b54C4b2cd169cF0CF`](https://goerli.etherscan.io/address/0x587aF5b67C6b5c3E8B2f256b54C4b2cd169cF0CF)
+### Format
 
+```shell
+$ forge fmt
+```
 
+### Gas Snapshots
+
+```shell
+$ forge snapshot
+```
+
+### Anvil
+
+```shell
+$ anvil
+```
+
+### Deploy
+
+```shell
+$ forge script script/Counter.s.sol:CounterScript --rpc-url <your_rpc_url> --private-key <your_private_key>
+```
+
+### Cast
+
+```shell
+$ cast <subcommand>
+```
+
+### Help
+
+```shell
+$ forge --help
+$ anvil --help
+$ cast --help
+```
